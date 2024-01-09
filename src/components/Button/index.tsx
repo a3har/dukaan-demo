@@ -18,13 +18,16 @@ export default function Button({
 }: ButtonProps) {
   return (
     <button
+      disabled={disabled}
+      onClick={onClick}
       className={classNames(
-        "text-black-30 border border-black-85 rounded  transition-colors duration-200 ease-in-out",
+        "text-black-30 border border-black-85 rounded  transition-colors duration-200 ease-in-out bg-white",
         PADDING_TO_CLASSNAME_MAP[padding],
         {
           "opacity-50 cursor-not-allowed": disabled,
           "hover:bg-gray-50 cursor-pointer": !disabled,
-        }
+        },
+        className
       )}
     >
       {children}

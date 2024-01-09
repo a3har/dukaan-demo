@@ -5,9 +5,10 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
-  getPaginationRowModel,
+  CellContext,
 } from "@tanstack/react-table"
 
+import useSearchParamsPagination from "@/hooks/useSearchParamsPagination"
 import {
   Table,
   TableBody,
@@ -16,27 +17,48 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/Table"
-import Button from "../Button"
+import Pagination from "@/components/Pagination"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  CustomCell?: React.FC<CellContext<any, unknown>>
+  size: number
+  total: number
+  name: string
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  CustomCell,
+  size,
+  total,
+  name,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
-    columns,
+    columns: columns.map((column) => {
+      return {
+        ...column,
+        ...(CustomCell
+          ? {
+              cell: CustomCell,
+            }
+          : {}),
+      }
+    }),
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+  })
+  const pagination = useSearchParamsPagination({
+    total,
+    size,
+    key: name,
   })
 
   return (
     <div>
-      <div className="rounded-md border">
+      <div className="rounded-md">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -86,19 +108,8 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-center space-x-2 py-4">
-        <Button
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
+      <div className="mt-6">
+        <Pagination pagination={pagination} />
       </div>
     </div>
   )

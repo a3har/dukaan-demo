@@ -1,22 +1,48 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import api from "@/clients/api"
+import useQueryParams from "@/hooks/useQueryParams"
 import { Download, Search, Sort } from "@/components/Icons"
 import Button from "@/components/Button"
 import { DataTable } from "@/components/DataTable"
 import { TRANSACTION_FIELDS } from "@/constants/transactions"
 import WaitForQueries from "@/components/WaitForQueries"
 
+import TransactionCell from "./components/Cell"
+
+const PAGE_SIZE = 10
+
 export default function Transactions() {
+  const { searchParams, updateQueryParam, removeQueryParams } = useQueryParams()
+  const currentPage = searchParams.get("transactions_page") || 1
+  const [orderIdFilter, setOrderIdFilter] = useState<string>("")
+
+  const params = {
+    pagination: {
+      page: currentPage,
+      size: PAGE_SIZE,
+    },
+    filters: {
+      orderId: orderIdFilter,
+    },
+  }
   const transactionQuery = useQuery({
-    queryKey: ["transactions"],
+    queryKey: ["transactions", params],
     queryFn: () => {
-      return api.post("api/payments/transactions", {}, {})
+      return api.post("api/payments/transactions", params, {})
     },
   })
 
   const data = transactionQuery.data?.transactions
+
+  useEffect(() => {
+    if (orderIdFilter) {
+      updateQueryParam("transactions_filter_orderId", orderIdFilter)
+    } else {
+      removeQueryParams(["transactions_filter_orderId"])
+    }
+  }, [orderIdFilter])
 
   return (
     <div className="flex flex-col w-full">
@@ -29,6 +55,10 @@ export default function Transactions() {
               type="text"
               className="text-sm text-black-60 w-full bg-transparent focus:outline-none focus-within:outline-none"
               placeholder="Search by order ID..."
+              value={orderIdFilter}
+              onChange={(e) => {
+                setOrderIdFilter(e.target.value)
+              }}
             />
           </div>
           <div className="flex flex-row items-center justify-end gap-3">
@@ -38,14 +68,21 @@ export default function Transactions() {
                 <Sort className="w-4" />
               </div>
             </Button>
-            <Button padding="md" onClick={() => {}}>
+            <Button padding="sm" onClick={() => {}}>
               <Download className="w-5 text-black-30 fill-current" />
             </Button>
           </div>
         </div>
         <div className="mt-3">
           <WaitForQueries queries={[transactionQuery]}>
-            <DataTable data={data} columns={TRANSACTION_FIELDS} />
+            <DataTable
+              data={data}
+              columns={TRANSACTION_FIELDS}
+              CustomCell={TransactionCell}
+              size={PAGE_SIZE}
+              total={transactionQuery.data?.total || 0}
+              name="transactions"
+            />
           </WaitForQueries>
         </div>
       </div>
