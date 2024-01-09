@@ -15,9 +15,14 @@ export default function Header({ title }: HeaderProps) {
         <span className="text-[15px] leading-[1.4rem] text-black-12">
           {title}
         </span>
-        <div className="flex flex-row items-center text-black-30">
+        <div className="flex relative flex-row items-center text-black-30 cursor-pointer group">
           <Help className="w-3.5 mr-1.5 text-black-30 fill-current" />
           <span className="text-xs ">How it works </span>
+          <div className="absolute w-40 top-6  group-hover:opacity-100 px-2 py-1 bg-black-60 text-white rounded text-xs opacity-0">
+            This is a dummy tooltip. This should explain how payments should
+            work. Let's see how this looks. This is just a dummy tooltip. This
+            should explain how payments should work.
+          </div>
         </div>
       </div>
       <AppSearch />

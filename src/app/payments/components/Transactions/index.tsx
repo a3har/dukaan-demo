@@ -39,6 +39,7 @@ export default function Transactions() {
   useEffect(() => {
     if (orderIdFilter) {
       updateQueryParam("transactions_filter_orderId", orderIdFilter)
+      removeQueryParams(["transactions_page"])
     } else {
       removeQueryParams(["transactions_filter_orderId"])
     }
