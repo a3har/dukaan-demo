@@ -19,7 +19,7 @@ export default function SidebarNavigation() {
             href={path}
             key={path}
             className={classNames(
-              "px-4 py-2 rounded text-sm flex flex-row items-center gap-3 hover:bg-opacity-10 hover:bg-white cursor-pointer transition-colors duration-200",
+              "px-4 py-2 rounded text-sm flex flex-row items-center gap-3 hover:bg-opacity-10 hover:bg-white cursor-pointer transition-colors duration-300",
               {
                 "bg-opacity-10 bg-white": isActive,
               }
