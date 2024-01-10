@@ -16,7 +16,9 @@ const PAGE_SIZE = 10
 export default function Transactions() {
   const { searchParams, updateQueryParam, removeQueryParams } = useQueryParams()
   const currentPage = searchParams.get("transactions_page") || 1
-  const [orderIdFilter, setOrderIdFilter] = useState<string>("")
+  const [orderIdFilter, setOrderIdFilter] = useState<string>(
+    searchParams.get("transactions_filter_orderId") || ""
+  )
 
   const params = {
     pagination: {
