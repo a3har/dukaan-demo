@@ -38,7 +38,7 @@ export default function PaymentsOverview() {
       <div
         className={classNames("mt-6", {
           "flex items-center justify-center min-h-32": paymentsStats.isLoading,
-          "grid grid-cols-2 gap-5": !paymentsStats.isLoading,
+          "grid md:grid-cols-2 gap-5  grid-cols-1": !paymentsStats.isLoading,
         })}
       >
         <WaitForQueries queries={[paymentsStats]}>

@@ -22,11 +22,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.png" media="all" />
+      </head>
       <Providers>
         <body
           className={classNames(
             inter.className,
-            "w-screen h-screen flex flex-row"
+            "w-screen h-screen flex flex-row relative"
           )}
         >
           <Sidebar />

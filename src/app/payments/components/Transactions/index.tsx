@@ -48,14 +48,14 @@ export default function Transactions() {
   return (
     <div className="flex flex-col w-full">
       <h4 className="text-xl font-medium text-black-12">Transactions</h4>
-      <div className="shadow-table p-3 bg-white rounded-lg mt-5">
-        <div className="flex flex-row items-center justify-between">
-          <div className="px-4 py-2.5 flex flex-row gap-2 w-[15.5rem] rounded border-black-85 border">
+      <div className="shadow-table p-3 bg-white rounded-lg mt-5 flex items-center flex-col">
+        <div className="flex flex-row items-center justify-between w-full">
+          <div className="px-4 py-2.5 flex flex-row gap-2 w-40 md:w-[15.5rem] rounded border-black-85 border">
             <Search className="w-3.5 text-black-60" />
             <input
               type="text"
               className="text-sm text-black-60 w-full bg-transparent focus:outline-none focus-within:outline-none"
-              placeholder="Search by order ID..."
+              placeholder="Search by order id ..."
               value={orderIdFilter}
               onChange={(e) => {
                 setOrderIdFilter(e.target.value)
@@ -74,7 +74,7 @@ export default function Transactions() {
             </Button>
           </div>
         </div>
-        <div className="mt-3">
+        <div className="mt-3 overflow-x-auto w-80 md:w-full">
           <WaitForQueries queries={[transactionQuery]}>
             <DataTable
               data={data}

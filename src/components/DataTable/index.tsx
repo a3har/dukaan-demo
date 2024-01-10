@@ -59,7 +59,7 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="rounded-md">
-        <Table>
+        <Table className="md:min-w-full min-w-[40rem]">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
