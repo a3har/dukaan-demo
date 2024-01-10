@@ -44,7 +44,9 @@ export default function Pagination({ pagination }: PaginationProps) {
       >
         <div className="flex flex-row items-center gap-1.5">
           <ChevronArrow className="w-4 rotate-90 text-black-30" />
-          <span className="text-sm text-black-30">Previous</span>
+          <span className="text-sm text-black-30 md:block hidden">
+            Previous
+          </span>
         </div>
       </Button>
       {totalPages > 6 ? (
@@ -111,7 +113,7 @@ export default function Pagination({ pagination }: PaginationProps) {
         disabled={!hasNextPage}
       >
         <div className="flex flex-row items-center gap-1.5">
-          <span className="text-sm text-black-30">Next</span>
+          <span className="text-sm text-black-30 md:block hidden">Next</span>
           <ChevronArrow className="w-4 -rotate-90 text-black-30" />
         </div>
       </Button>
